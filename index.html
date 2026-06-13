@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>中山女高 · 學習策略攻略</title>
+<style>
+  :root{
+    --wine:#7a1f2b; --wine2:#9c3a2e; --gold:#c98a3c; --gold-l:#fbeee0;
+    --cream:#faf6f0; --ink:#1f2933; --grey:#52606d; --line:#e0d4c4;
+    --green:#4f9d56; --green-bg:#eef6ee; --red:#c0392b; --red-bg:#fdeeee;
+    --blue:#2d6a9f;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:-apple-system,"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif;
+    color:var(--ink); line-height:1.75; background:#ece3d7;
+  }
+  .app{max-width:920px; margin:0 auto; background:#fff; min-height:100vh;
+       box-shadow:0 0 50px rgba(0,0,0,.08);}
+
+  header{background:linear-gradient(135deg,var(--wine),#9c3a2e); color:#fff;
+         padding:30px 26px 24px; text-align:center;}
+  header .k{font-size:12px; letter-spacing:4px; color:#f0c89a; font-weight:700;}
+  header h1{font-size:26px; margin:6px 0 4px; font-weight:800;}
+  header p{font-size:14px; color:#f3e2d4;}
+
+  .tabs{display:flex; flex-wrap:wrap; gap:8px; justify-content:center;
+        padding:16px 16px 4px; position:sticky; top:0; background:#fff; z-index:30;
+        border-bottom:1px solid #eee;}
+  .tab{border:2px solid var(--line); background:#fff; border-radius:24px;
+       padding:8px 16px; font-size:14px; font-weight:600; color:var(--grey);
+       cursor:pointer; transition:.18s; display:flex; align-items:center; gap:6px;
+       font-family:inherit; line-height:1.2; text-align:center;}
+  .tab:hover{border-color:var(--gold);}
+  .tab.active{background:var(--wine); border-color:var(--wine); color:#fff;}
+  .tab .em{font-size:16px;}
+
+  .content{padding:8px 26px 60px;}
+  .panel{display:none; animation:fade .35s ease;}
+  .panel.show{display:block;}
+  @keyframes fade{from{opacity:0; transform:translateY(8px);} to{opacity:1; transform:none;}}
+
+  .teacher-head{display:flex; align-items:center; gap:14px; margin:20px 0 6px;
+        padding:14px 18px; border-radius:14px; background:var(--cream); border:1px solid var(--line);}
+  .teacher-head .av{width:48px; height:48px; border-radius:50%; flex-shrink:0;
+        display:flex; align-items:center; justify-content:center; font-size:22px; color:#fff;}
+  .teacher-head h2{font-size:18px; color:var(--wine); margin:0;}
+  .teacher-head .sub{font-size:13px; color:var(--grey);}
+
+  .lead{color:var(--grey); margin:12px 0; font-size:15px;}
+  strong{color:var(--wine);}
+
+  .acc{border:1px solid var(--line); border-radius:12px; margin:12px 0; overflow:hidden;}
+  .acc-head{padding:14px 18px; cursor:pointer; display:flex; align-items:center;
+        justify-content:space-between; gap:10px; background:#fff; transition:.15s; user-select:none;}
+  .acc-head:hover{background:var(--cream);}
+  .acc-head .t{font-weight:700; color:var(--wine); font-size:15.5px; display:flex; align-items:center; gap:9px; flex-wrap:wrap;}
+  .acc-head .t .ic{width:26px; height:26px; border-radius:7px; background:var(--gold-l);
+        color:var(--gold); display:flex; align-items:center; justify-content:center; font-weight:800; flex-shrink:0;}
+  .acc-head .arrow{color:var(--gold); font-size:18px; transition:transform .25s; flex-shrink:0;}
+  .acc.open .arrow{transform:rotate(90deg);}
+  .acc-body{max-height:0; overflow:hidden; transition:max-height .3s ease;}
+  .acc.open .acc-body{max-height:2200px;}
+  .acc-inner{padding:2px 18px 16px;}
+  .pill{font-size:11.5px; background:#eceff1; color:var(--grey); border-radius:12px;
+        padding:2px 10px; font-weight:600;}
+
+  p{margin:7px 0;} ul,ol{margin:8px 0 8px 22px;} li{margin:4px 0;}
+  table{width:100%; border-collapse:collapse; margin:12px 0; font-size:13.5px; border-radius:8px; overflow:hidden;}
+  th{background:var(--wine); color:#fff; text-align:left; padding:8px 11px; font-weight:600;}
+  td{border:1px solid var(--line); padding:7px 11px; vertical-align:top;}
+  tr:nth-child(even) td{background:var(--cream);}
+  .box{background:var(--cream); border:1px solid #e6d3bd; border-left:5px solid var(--gold);
+        border-radius:9px; padding:12px 16px; margin:12px 0;}
+  .box .bt{font-weight:700; color:#a85a00; margin-bottom:3px;}
+  .tip{background:var(--green-bg); border:1px solid #cfe6cf; border-left:5px solid var(--green);
+        border-radius:9px; padding:12px 16px; margin:12px 0;}
+  .tip .bt{font-weight:700; color:#2f7a37; margin-bottom:3px;}
+  .warn{background:var(--red-bg); border:1px solid #f2cccc; border-left:5px solid var(--red);
+        border-radius:9px; padding:12px 16px; margin:12px 0;}
+  .warn .bt{font-weight:700; color:#b0392b; margin-bottom:3px;}
+  .formula{font-size:16px; text-align:center; font-weight:800; color:var(--wine); margin:10px 0;}
+  .center{text-align:center;}
+  .twocol{display:flex; gap:16px; flex-wrap:wrap;}
+  .twocol>div{flex:1; min-width:220px;}
+  .check{list-style:none; margin-left:2px;}
+  .check li{padding-left:28px; position:relative; cursor:pointer; user-select:none;}
+  .check li::before{content:"☐"; position:absolute; left:0; color:var(--gold); font-size:17px; top:-2px;}
+  .check li.done{color:#9aa; text-decoration:line-through;}
+  .check li.done::before{content:"☑"; color:var(--green);}
+
+  footer{text-align:center; padding:24px; color:#a99; font-size:13px; border-top:1px solid #eee;}
+
+  @media(max-width:560px){
+    header h1{font-size:22px;}
+    .content{padding:8px 16px 50px;}
+    .tab{padding:7px 11px; font-size:12.5px;}
+  }
+</style>
+</head>
+<body>
+<div class="app">
+
+  <header>
+    <div class="k">中山女高 · 高一 · 學習策略</div>
+    <h1>作業攻略 · 互動版</h1>
+    <p>點老師按鈕，看每份作業要做什麼、怎麼拿高分</p>
+  </header>
+
+  <div class="tabs" id="tabs">
+    <button class="tab active" data-p="intro"><span class="em">🧭</span>總覽</button>
+    <button class="tab" data-p="eng"><span class="em">📘</span>Shuchen Wang・英文</button>
+    <button class="tab" data-p="chi"><span class="em">📗</span>林世奇・國文</button>
+    <button class="tab" data-p="zheng"><span class="em">🧠</span>鄭榮輝・心智圖/文本</button>
+    <button class="tab" data-p="wu"><span class="em">🎵</span>吳宜玲・歌曲</button>
+    <button class="tab" data-p="space"><span class="em">🗺️</span>空間觀察</button>
+    <button class="tab" data-p="score"><span class="em">🏆</span>高分公式</button>
+  </div>
+
+  <div class="content">
+
+    <!-- 總覽 -->
+    <div class="panel show" id="intro">
+      <p class="lead">學校把「學習策略」拆進各科反覆練習，但所有作業背後都在訓練<strong>同一組核心能力</strong>。看懂這條主軸，每份作業就不再零散。<br><span style="color:#999;">👆 點上面的老師按鈕，切換看各自的作業。</span></p>
+      <div class="box"><div class="bt">核心流程</div>
+        <div class="formula" style="font-size:15px;">觀察／閱讀 → 提問／分析 → 詮釋／推理 → 歸納／整理 → 遷移／連結 → 表達／反思</div>
+      </div>
+      <table>
+        <tr><th style="width:22%">能力</th><th style="width:42%">白話意思</th><th>對應作業</th></tr>
+        <tr><td><strong>觀察／閱讀</strong></td><td>仔細看、仔細讀，不放過細節</td><td>空間觀察、散赤人、文本分析</td></tr>
+        <tr><td><strong>提問／分析</strong></td><td>問「為什麼」、拆解作者手法</td><td>空間觀察、散赤人、論證分析</td></tr>
+        <tr><td><strong>詮釋／推理</strong></td><td>讀出言外之意、找出背後原理</td><td>散赤人、歌曲分析、生命起源</td></tr>
+        <tr><td><strong>歸納／整理</strong></td><td>提煉成通則、畫成圖</td><td>心智圖、空間觀察進階題</td></tr>
+        <tr><td><strong>遷移／連結</strong></td><td>用到別領域、連到自身經驗</td><td>空間觀察、ORID、歌曲分析</td></tr>
+        <tr><td><strong>表達／反思</strong></td><td>寫出來、講出來、提出看法</td><td>口頭報告、ORID、各反思題</td></tr>
+      </table>
+      <div class="tip"><div class="bt">一句話記住全部</div>不管讀什麼、看什麼，都用同一套流程：<strong>看清楚 → 問為什麼 → 想出道理 → 整理成圖／話 → 連到別處 → 說出我的看法</strong>。老師最看重「為什麼」和「我的看法」這兩段。</div>
+    </div>
+
+    <!-- 英文 -->
+    <div class="panel" id="eng">
+      <div class="teacher-head">
+        <div class="av" style="background:var(--blue);">📘</div>
+        <div><h2>Shuchen Wang 老師 · 英文模組「夢想實踐家」</h2>
+        <div class="sub">教四種閱讀／反思工具，課文是 Dream Big, Start Small</div></div>
+      </div>
+
+      <div class="acc open">
+        <div class="acc-head"><span class="t"><span class="ic">1</span>ORID 反思法 <span class="pill">影片／經驗反思</span></span><span class="arrow">▸</span></div>
+        <div class="acc-body"><div class="acc-inner">
+          <p><strong>在教什麼：</strong>一套「想事情的固定順序」，看完影片或經歷一件事後照四步走就有話可說。</p>
+          <table>
+            <tr><th style="width:16%">步驟</th><th style="width:32%">問自己</th><th>範例（回音法影片）</th></tr>
+            <tr><td><strong>O 客觀</strong></td><td>我看到／聽到什麼事實？</td><td>講者說發音要用回音法並示範單字。</td></tr>
+            <tr><td><strong>R 感受</strong></td><td>我有什麼感覺？哪裡驚訝？</td><td>很驚訝，原來連阿滴都會唸錯。</td></tr>
+            <tr><td><strong>I 詮釋</strong></td><td>這對我有什麼意義／領悟？</td><td>唸錯不丟臉，以後不用怕開口。</td></tr>
+            <tr><td><strong>D 決定</strong></td><td>接下來要採取什麼行動？</td><td>決定每天用回音法練 3 個單字。</td></tr>
+          </table>
+          <div class="tip"><div class="bt">怎麼拿高分</div>四步都要寫滿，<strong>I（詮釋）和 D（決定）是評分重點</strong>。很多人只寫到「很有趣」就停（那只到 R），一定要寫出「為什麼有感」和「我要怎麼做」。</div>
+        </div></div>
+      </div>
+
+      <div class="acc">
+        <div class="acc-head"><span class="t"><span class="ic">2</span>The Echo Method 回音法 <span class="pill">發音實作</span></span><span class="arrow">▸</span></div>
+        <div class="acc-body"><div class="acc-inner">
+          <p><strong>在教什麼：</strong>像山谷回音，<strong>聽一句、立刻模仿一句</strong>，模仿語調、節奏、重音。</p>
+          <p><strong>要交什麼：</strong>抄負責的逐字稿段落、用紅筆切斷句子、記錄練習次數、寫實踐體悟。</p>
+          <div class="tip"><div class="bt">怎麼拿高分</div>① 練習次數誠實且夠多（寫 5～10 次比 1 次有說服力）；② 體悟具體——「我發現 th 的咬舌位置」比「我覺得有進步」好太多。</div>
+        </div></div>
+      </div>
+
+      <div class="acc">
+        <div class="acc-head"><span class="t"><span class="ic">3</span>摘要 Summary <span class="pill">抓重點</span></span><span class="arrow">▸</span></div>
+        <div class="acc-body"><div class="acc-inner">
+          <p><strong>在教什麼：</strong>用自己的話抓骨架。Dream Big 三條黃金法則＝①從小改變 ②訂具體計畫 ③一次專注一個目標。</p>
+          <div class="box"><div class="bt">摘要填空正解（已對照原文）</div>1=dreams／2=small／3=unrealistic／4=difficult／5=make specific plans／6=focus／7=golden（three golden rules）</div>
+        </div></div>
+      </div>
+
+      <div class="acc">
+        <div class="acc-head"><span class="t"><span class="ic">4</span>文章結構分析 <span class="pill">看作者鋪陳</span></span><span class="arrow">▸</span></div>
+        <div class="acc-body"><div class="acc-inner">
+          <p><strong>在教什麼：</strong>看出說明文套路。gaming disorder 排序正解：</p>
+          <div class="formula">(d) 定義 → (b) 症狀 → (c) 治療 → (a) 呼籲行動</div>
+          <p class="lead">學會套路，讀任何說明文都能預測下一段，讀得又快又懂。</p>
+        </div></div>
+      </div>
+    </div>
+
+    <!-- 國文 -->
+    <div class="panel" id="chi">
+      <div class="teacher-head">
+        <div class="av" style="background:var(--green);">📗</div>
+        <div><h2>林世奇 老師 · 國文〈散赤人〉讀後</h2>
+        <div class="sub">深度閱讀 × 文學鑑賞，像評論者一樣分析作品</div></div>
+      </div>
+      <p class="lead">八個問題各對應一個分析角度。下面整理每題在考什麼、答題方向。</p>
+      <table>
+        <tr><th style="width:8%">題</th><th style="width:30%">分析工具</th><th>白話＋答題方向</th></tr>
+        <tr><td>一</td><td><strong>人物描寫手法</strong></td><td>找作者用的手法（動作、語言、細節、對比）。例：阿公喊「秤了沒？」一句寫活吝嗇。</td></tr>
+        <tr><td>二</td><td><strong>扁平 vs 圓形人物</strong></td><td>嬸婆是<strong>扁平人物</strong>——性格單一、全篇沒變化、可一句話概括。</td></tr>
+        <tr><td>三</td><td><strong>敘事技巧</strong></td><td>用小故事＋閩南語俗諺＋引經典推動情節，畫面感強。</td></tr>
+        <tr><td>四</td><td><strong>主題思辨</strong></td><td>貧窮影響：尊嚴受損、人際緊張、奪食。作者認為「人窮志短」才是常態。</td></tr>
+        <tr><td>五</td><td><strong>中心意旨判讀</strong></td><td>作者沒明講，要讀出：質疑「寫歷史傳記的人能看見多少真相」。</td></tr>
+        <tr><td>六</td><td><strong>幽默 vs 滑稽</strong></td><td>幽默＝局外人輕鬆旁觀；滑稽＝身在其中，又笑又痛。本文是滑稽。</td></tr>
+        <tr><td>七</td><td><strong>意象與鄉土文學</strong></td><td>本文<strong>反</strong>美化鄉土：故意拆穿「民風淳樸」的浪漫想像。</td></tr>
+        <tr><td>八</td><td><strong>個人讀後感</strong></td><td>整合以上，提出自己的觀點與經驗連結。</td></tr>
+      </table>
+      <div class="box"><div class="bt">兩把解讀鑰匙（抓到就高分）</div>
+        <strong>鑰匙一・滑稽不是幽默：</strong>阿嬤詛咒嬸婆、嬸婆卻踮腳偷看——你會笑，笑完心裡發酸，這就是「滑稽」。<br>
+        <strong>鑰匙二・反美化書寫：</strong>文末作者明說學者把洲尾寫成「民風淳樸」，但真相是貧窮讓人志短。真正想說的是<strong>「真相往往被美化的文字掩蓋」</strong>。
+      </div>
+      <div class="tip"><div class="bt">怎麼拿高分</div>國文開放題<strong>一定要引用文中具體段落當證據</strong>，再加上「我的感受／類似經驗」。只寫感想＝低分；有引文＋個人連結＝高分。</div>
+    </div>
+
+    <!-- 鄭榮輝 -->
+    <div class="panel" id="zheng">
+      <div class="teacher-head">
+        <div class="av" style="background:var(--gold);">🧠</div>
+        <div><h2>鄭榮輝 老師 · 心智圖 ＋ 文本分析</h2>
+        <div class="sub">視覺化整理 ＋ 論證閱讀，共四份作業</div></div>
+      </div>
+
+      <h3 style="color:var(--wine2); margin:14px 0 4px; font-size:16px;">🗂️ 心智圖系列（視覺化整理）</h3>
+      <div class="acc open">
+        <div class="acc-head"><span class="t"><span class="ic">1</span>學科知識心智圖 <span class="pill">紙本拍照 · 5/3</span></span><span class="arrow">▸</span></div>
+        <div class="acc-body"><div class="acc-inner">
+          <p>選一個學科主題手繪心智圖、拍照上傳。結構：中心主題 → 主分支（大概念）→ 次分支（細節）。</p>
+        </div></div>
+      </div>
+      <div class="acc">
+        <div class="acc-head"><span class="t"><span class="ic">2</span>個人興趣心智圖 <span class="pill">Xmind PDF · 5/3</span></span><span class="arrow">▸</span></div>
+        <div class="acc-body"><div class="acc-inner">
+          <p>用 Xmind 軟體做個人興趣心智圖，輸出 PDF 上傳。</p>
+        </div></div>
+      </div>
+      <div class="tip"><div class="bt">心智圖怎麼拿高分（通用）</div>① <strong>分層清楚</strong>至少三層；② <strong>用關鍵詞不寫整句</strong>，一節點一詞；③ <strong>同層概念份量相當</strong>；④ 用顏色／圖示分類。評分看「結構清晰」不是「畫得漂亮」。</div>
+
+      <h3 style="color:var(--wine2); margin:20px 0 4px; font-size:16px;">🔬 文本分析系列（論證閱讀）</h3>
+      <div class="acc">
+        <div class="acc-head"><span class="t"><span class="ic">3</span>生命起源論證文本分析 <span class="pill">5/10</span></span><span class="arrow">▸</span></div>
+        <div class="acc-body"><div class="acc-inner">
+          <p>核心問法：作者主張什麼？用了哪些證據？推論是否合理？有沒有其他可能解釋？</p>
+        </div></div>
+      </div>
+      <div class="acc">
+        <div class="acc-head"><span class="t"><span class="ic">4</span>細胞膜模式建模文本分析 <span class="pill">5/10</span></span><span class="arrow">▸</span></div>
+        <div class="acc-body"><div class="acc-inner">
+          <p>核心問法：科學家怎麼從實驗證據建立「細胞膜模型」？模型怎麼隨新證據被修正？</p>
+        </div></div>
+      </div>
+      <div class="box"><div class="bt">論證分析萬用四步框架</div>
+        <strong>1. 主張 Claim</strong>＝作者最後要說什麼？<br>
+        <strong>2. 證據 Evidence</strong>＝拿什麼資料／實驗支持？<br>
+        <strong>3. 推理 Reasoning</strong>＝證據怎麼連到主張？<br>
+        <strong>4. 反思 Limitation</strong>＝有沒有漏洞、其他解釋、未解問題？
+      </div>
+      <div class="tip"><div class="bt">怎麼拿高分</div>多數人只答到「主張」，<strong>分數在第 3、4 點</strong>——能說出「證據如何推導結論」「模型有何限制／曾被修正」，才是這份作業要的深度。</div>
+    </div>
+
+    <!-- 吳宜玲 -->
+    <div class="panel" id="wu">
+      <div class="teacher-head">
+        <div class="av" style="background:#b0568c;">🎵</div>
+        <div><h2>吳宜玲 老師 · 年代歌曲文本分析</h2>
+        <div class="sub">文本詮釋＋時代連結，小組書面＋口頭報告</div></div>
+      </div>
+      <p class="lead">把流行歌當「文本」，從歌詞讀出社會、政治、價值觀。</p>
+      <div class="box"><div class="bt">作業要求</div>
+        <strong>選歌：</strong>一首能代表台灣 2010～2025 時代意義的歌（以華語歌為主）。<br>
+        <strong>檔名：</strong>「班級_組別_歌名」，例：一信_第一組_玫瑰少年。<br>
+        <strong>書面（三頁）：</strong>
+        <ol>
+          <li>挑選此代表歌曲的原因、歷程</li>
+          <li>投影片插入歌曲影音連結，寫歌名／創作者／歌手</li>
+          <li>列出歌詞關鍵句至少 3 句，說明為何代表這時代（社會、政治、經濟、愛情觀、價值觀等）</li>
+        </ol>
+        首頁註明主題、班級、小組成員座號姓名。
+      </div>
+      <div class="warn"><div class="bt">口頭報告扣分地雷（老師特別列出）</div>
+        <ul>
+          <li>不可盯著螢幕念稿，要<strong>消化後用自己的話說</strong></li>
+          <li>眼神必須看台下同學</li>
+          <li>時間<strong>不可少於 1 分鐘、不可大於 3 分鐘</strong></li>
+          <li>介紹關鍵歌詞時<strong>必須解說該句意義</strong></li>
+          <li>歌曲放一遍就好，副歌結束即可停止</li>
+        </ul>
+      </div>
+      <div class="tip"><div class="bt">怎麼拿高分</div>選歌就贏一半——挑<strong>明顯反映社會議題</strong>的歌（〈玫瑰少年〉談性別平權、〈島嶼天光〉談社運），關鍵句要寫「這句反映什麼社會現象／價值觀」，別只翻譯字面。</div>
+    </div>
+
+    <!-- 空間觀察 -->
+    <div class="panel" id="space">
+      <div class="teacher-head">
+        <div class="av" style="background:#5a8f8f;">🗺️</div>
+        <div><h2>空間觀察與分析（Part1）</h2>
+        <div class="sub">探究式思考：把校園當研究對象</div></div>
+      </div>
+      <p class="lead">訓練「觀察→提問→推理→歸納→遷移→批判」。<span style="color:#999;">（你這份已完成且寫得很完整。）</span></p>
+      <table>
+        <tr><th style="width:18%">階段</th><th style="width:44%">在做什麼</th><th>對應題目</th></tr>
+        <tr><td><strong>觀察</strong></td><td>注意校園空間怎麼安排</td><td>全題前提</td></tr>
+        <tr><td><strong>提問</strong></td><td>對理所當然的現象問為什麼</td><td>1～6 題</td></tr>
+        <tr><td><strong>推理</strong></td><td>找出原理（動靜分離、噪音隔離、物流安全）</td><td>每題「●」分析</td></tr>
+        <tr><td><strong>歸納</strong></td><td>把零散觀察提煉成通則</td><td>進階題一</td></tr>
+        <tr><td><strong>遷移</strong></td><td>放大到都市、國土計畫</td><td>進階題三</td></tr>
+        <tr><td><strong>批判</strong></td><td>找缺點＋提改進方案</td><td>進階題二</td></tr>
+      </table>
+      <div class="tip"><div class="bt">怎麼拿高分</div>每個答案要有「<strong>原則名稱＋具體理由</strong>」兩層。不要只寫「比較安靜」，要寫「<strong>動靜分離</strong>：遠離操場，減少體育課噪音干擾備考」。你目前的寫法正是滿分寫法。</div>
+    </div>
+
+    <!-- 高分公式 -->
+    <div class="panel" id="score">
+      <div class="teacher-head">
+        <div class="av" style="background:var(--wine);">🏆</div>
+        <div><h2>萬用高分公式 ＋ 自我檢核</h2>
+        <div class="sub">不管哪一科都適用</div></div>
+      </div>
+      <div class="box">
+        <div class="bt">所有「分析／反思題」的高分公式</div>
+        <div class="formula">原則／概念名稱　＋　具體證據（引文／例子）　＋　我的詮釋或看法</div>
+        <p class="center" style="color:#888;">三塊都到位＝高分；只有純感想＝低分。</p>
+      </div>
+      <div class="twocol">
+        <div>
+          <h4 style="color:var(--wine2);margin:10px 0 4px;">A · 交件前檢查</h4>
+          <ul class="check" onclick="if(event.target.tagName==='LI')event.target.classList.toggle('done')">
+            <li>檔名格式對嗎？</li>
+            <li>有寫班級、座號、姓名？</li>
+            <li>頁數／字數符合要求？</li>
+            <li>上傳期限與方式確認？</li>
+          </ul>
+        </div>
+        <div>
+          <h4 style="color:var(--wine2);margin:10px 0 4px;">B · 內容深度檢查</h4>
+          <ul class="check" onclick="if(event.target.tagName==='LI')event.target.classList.toggle('done')">
+            <li>每個答案都有「為什麼」？</li>
+            <li>有引用文本／具體例子？</li>
+            <li>有寫出「我的看法／連結」？</li>
+            <li>有寫到反思／限制／改進？</li>
+          </ul>
+        </div>
+      </div>
+      <p class="center" style="color:#aaa;font-size:13px;margin-top:8px;">（清單可以點選打勾 ✓）</p>
+      <div class="tip"><div class="bt">最後提醒</div>這整套課程的真正目的，不是某科知識，而是「<strong>怎麼學習</strong>」本身。把「<strong>問為什麼</strong>」和「<strong>提出我的看法</strong>」變成習慣，每份作業、每科考試都能拿高分。</div>
+    </div>
+
+  </div>
+
+  <footer>宋柔穎（一信10號）· 中山女高學習策略攻略 · 點老師按鈕切換內容</footer>
+</div>
+
+<script>
+  const tabs = document.querySelectorAll('.tab');
+  const panels = document.querySelectorAll('.panel');
+  tabs.forEach(tab=>{
+    tab.addEventListener('click', ()=>{
+      tabs.forEach(t=>t.classList.remove('active'));
+      panels.forEach(p=>p.classList.remove('show'));
+      tab.classList.add('active');
+      document.getElementById(tab.dataset.p).classList.add('show');
+      window.scrollTo({top:0, behavior:'smooth'});
+    });
+  });
+  document.querySelectorAll('.acc-head').forEach(h=>{
+    h.addEventListener('click', ()=> h.parentElement.classList.toggle('open'));
+  });
+</script>
+</body>
+</html>
