@@ -15,19 +15,58 @@
   html{scroll-behavior:smooth;}
   body{
     font-family:-apple-system,"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif;
-    color:var(--ink); line-height:1.75; background:#ece3d7;
+    color:var(--ink); line-height:1.75;
+    background:linear-gradient(180deg,#9ec9e8 0%,#c4ddee 28%,#e8eef0 50%,#ece3d7 100%);
+    background-attachment:fixed; min-height:100vh;
   }
-  .app{max-width:920px; margin:0 auto; background:#fff; min-height:100vh;
-       box-shadow:0 0 50px rgba(0,0,0,.08);}
+  /* 飄落楓葉 */
+  .leaves{position:fixed; inset:0; pointer-events:none; z-index:1; overflow:hidden;}
+  .leaf{position:absolute; top:-40px; font-size:22px; opacity:.85;
+        animation:fall linear infinite;}
+  @keyframes fall{
+    0%{transform:translateY(-40px) translateX(0) rotate(0deg); opacity:0;}
+    10%{opacity:.9;}
+    100%{transform:translateY(105vh) translateX(60px) rotate(420deg); opacity:.7;}
+  }
+  /* 底部校園剪影 */
+  .campus{position:fixed; left:0; right:0; bottom:0; height:120px; z-index:0;
+          pointer-events:none;}
+  .app{max-width:920px; margin:0 auto 130px; background:rgba(255,255,255,.97);
+       min-height:100vh; box-shadow:0 0 50px rgba(0,0,0,.12); position:relative; z-index:2;
+       border-radius:0 0 14px 14px;}
 
-  header{background:linear-gradient(135deg,var(--wine),#9c3a2e); color:#fff;
-         padding:30px 26px 24px; text-align:center;}
-  header .k{font-size:12px; letter-spacing:4px; color:#f0c89a; font-weight:700;}
-  header h1{font-size:26px; margin:6px 0 4px; font-weight:800;}
-  header p{font-size:14px; color:#f3e2d4;}
+  header{background:linear-gradient(135deg,rgba(122,31,43,.94),rgba(156,58,46,.92));
+         color:#fff; padding:30px 26px 24px; text-align:center; position:relative; overflow:hidden;}
+  header .k{font-size:12px; letter-spacing:4px; color:#f0c89a; font-weight:700; position:relative; z-index:2;}
+  header h1{font-size:26px; margin:6px 0 4px; font-weight:800; position:relative; z-index:2;}
+  header p{font-size:14px; color:#f3e2d4; position:relative; z-index:2;}
+  /* header 裡的小楓葉裝飾 */
+  header .deco{position:absolute; opacity:.18; font-size:60px; z-index:1;}
+
+  /* 搜尋框 */
+  .search-wrap{padding:14px 16px 4px; background:#fff; position:sticky; top:0; z-index:31;
+        border-bottom:1px solid #f0e8dc;}
+  .search-box{position:relative; max-width:560px; margin:0 auto;}
+  .search-box input{width:100%; padding:11px 40px 11px 42px; font-size:15px;
+        border:2px solid var(--line); border-radius:24px; outline:none; font-family:inherit;
+        transition:.2s; background:#fdfbf7;}
+  .search-box input:focus{border-color:var(--gold); box-shadow:0 0 0 3px rgba(201,138,60,.15);}
+  .search-box .si{position:absolute; left:15px; top:50%; transform:translateY(-50%); font-size:16px; color:var(--gold);}
+  .search-box .clear{position:absolute; right:12px; top:50%; transform:translateY(-50%);
+        cursor:pointer; color:#bbb; font-size:18px; display:none; background:none; border:none;}
+  .search-results{max-width:560px; margin:8px auto 0; display:none;}
+  .sr-item{padding:10px 14px; border:1px solid var(--line); border-radius:10px; margin:6px 0;
+        cursor:pointer; background:#fff; transition:.15s; display:flex; align-items:center; gap:10px;}
+  .sr-item:hover{background:var(--cream); border-color:var(--gold);}
+  .sr-item .sr-tag{font-size:11px; background:var(--wine); color:#fff; border-radius:10px;
+        padding:2px 9px; flex-shrink:0;}
+  .sr-item .sr-t{font-weight:600; color:var(--wine); font-size:14px;}
+  .sr-item .sr-d{font-size:12px; color:var(--grey);}
+  .sr-none{text-align:center; color:#aaa; padding:14px; font-size:14px;}
+  mark{background:#ffe9a8; color:inherit; padding:0 2px; border-radius:3px;}
 
   .tabs{display:flex; flex-wrap:wrap; gap:8px; justify-content:center;
-        padding:16px 16px 4px; position:sticky; top:0; background:#fff; z-index:30;
+        padding:14px 16px 10px; background:#fff; z-index:30;
         border-bottom:1px solid #eee;}
   .tab{border:2px solid var(--line); background:#fff; border-radius:24px;
        padding:8px 16px; font-size:14px; font-weight:600; color:var(--grey);
@@ -101,13 +140,28 @@
 </style>
 </head>
 <body>
+<!-- 飄落楓葉 -->
+<div class="leaves" id="leaves"></div>
+
 <div class="app">
 
   <header>
+    <span class="deco" style="top:-10px; left:10px;">🍁</span>
+    <span class="deco" style="bottom:-14px; right:18px;">🍂</span>
     <div class="k">中山女高 · 高一 · 學習策略</div>
     <h1>我的學習方法地圖</h1>
     <p>點老師按鈕，看每份作業在教我什麼思考方法、我能怎麼用在自己身上</p>
   </header>
+
+  <!-- 搜尋框 -->
+  <div class="search-wrap">
+    <div class="search-box">
+      <span class="si">🔍</span>
+      <input id="searchInput" type="text" placeholder="搜尋作業或學習方法… 例：SWOT、心智圖、回音法、平移">
+      <button class="clear" id="searchClear">✕</button>
+    </div>
+    <div class="search-results" id="searchResults"></div>
+  </div>
 
   <div class="tabs" id="tabs">
     <button class="tab active" data-p="intro"><span class="em">🧭</span>總覽</button>
@@ -489,21 +543,156 @@
   <footer>宋柔穎（一信10號）· 中山女高 · 我的學習方法地圖</footer>
 </div>
 
+<!-- 底部校園剪影：古蹟、操場、樹 -->
+<svg class="campus" viewBox="0 0 1200 120" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+  <!-- 操場跑道 -->
+  <ellipse cx="600" cy="135" rx="560" ry="48" fill="#cf9f6f" opacity="0.55"/>
+  <ellipse cx="600" cy="135" rx="500" ry="38" fill="#7cae6a" opacity="0.6"/>
+  <!-- 左側樹 -->
+  <g opacity="0.85">
+    <rect x="92" y="72" width="9" height="34" fill="#6b4a2b"/>
+    <circle cx="96" cy="62" r="26" fill="#c0512e"/>
+    <circle cx="78" cy="70" r="18" fill="#d4732e"/>
+    <circle cx="114" cy="70" r="18" fill="#b8431f"/>
+  </g>
+  <!-- 古蹟主建築（中山樓意象：紅磚＋三角頂＋鐘樓） -->
+  <g opacity="0.92">
+    <rect x="470" y="58" width="260" height="62" fill="#9c3a2e"/>
+    <rect x="470" y="58" width="260" height="10" fill="#7a1f2b"/>
+    <!-- 鐘樓 -->
+    <rect x="560" y="22" width="80" height="40" fill="#b04632"/>
+    <polygon points="560,22 600,2 640,22" fill="#7a1f2b"/>
+    <circle cx="600" cy="40" r="8" fill="#f0c89a"/>
+    <!-- 拱窗 -->
+    <rect x="492" y="78" width="20" height="34" rx="10" fill="#f3e2d4" opacity="0.8"/>
+    <rect x="530" y="78" width="20" height="34" rx="10" fill="#f3e2d4" opacity="0.8"/>
+    <rect x="650" y="78" width="20" height="34" rx="10" fill="#f3e2d4" opacity="0.8"/>
+    <rect x="688" y="78" width="20" height="34" rx="10" fill="#f3e2d4" opacity="0.8"/>
+    <!-- 大門 -->
+    <rect x="586" y="86" width="28" height="34" rx="14" fill="#5a1620"/>
+  </g>
+  <!-- 右側教學樓 -->
+  <g opacity="0.85">
+    <rect x="800" y="74" width="150" height="46" fill="#b56a4a"/>
+    <rect x="812" y="84" width="14" height="14" fill="#f3e2d4"/>
+    <rect x="836" y="84" width="14" height="14" fill="#f3e2d4"/>
+    <rect x="860" y="84" width="14" height="14" fill="#f3e2d4"/>
+    <rect x="884" y="84" width="14" height="14" fill="#f3e2d4"/>
+    <rect x="908" y="84" width="14" height="14" fill="#f3e2d4"/>
+  </g>
+  <!-- 右側樹 -->
+  <g opacity="0.85">
+    <rect x="1075" y="74" width="9" height="32" fill="#6b4a2b"/>
+    <circle cx="1079" cy="64" r="24" fill="#c85a2c"/>
+    <circle cx="1062" cy="72" r="16" fill="#d4732e"/>
+    <circle cx="1096" cy="72" r="16" fill="#b8431f"/>
+  </g>
+</svg>
+
 <script>
+  // ===== 飄落楓葉 =====
+  (function(){
+    const box = document.getElementById('leaves');
+    const kinds = ['🍁','🍂','🍁','🍂','🍁'];
+    const N = 14;
+    for(let i=0;i<N;i++){
+      const s = document.createElement('span');
+      s.className = 'leaf';
+      s.textContent = kinds[i % kinds.length];
+      s.style.left = Math.random()*100 + 'vw';
+      s.style.fontSize = (16 + Math.random()*16) + 'px';
+      s.style.animationDuration = (8 + Math.random()*9) + 's';
+      s.style.animationDelay = (Math.random()*10) + 's';
+      box.appendChild(s);
+    }
+  })();
+
+  // ===== 分頁切換 =====
   const tabs = document.querySelectorAll('.tab');
   const panels = document.querySelectorAll('.panel');
+  function showPanel(id){
+    tabs.forEach(t=>t.classList.toggle('active', t.dataset.p===id));
+    panels.forEach(p=>p.classList.toggle('show', p.id===id));
+  }
   tabs.forEach(tab=>{
     tab.addEventListener('click', ()=>{
-      tabs.forEach(t=>t.classList.remove('active'));
-      panels.forEach(p=>p.classList.remove('show'));
-      tab.classList.add('active');
-      document.getElementById(tab.dataset.p).classList.add('show');
+      showPanel(tab.dataset.p);
       window.scrollTo({top:0, behavior:'smooth'});
     });
   });
   document.querySelectorAll('.acc-head').forEach(h=>{
     h.addEventListener('click', ()=> h.parentElement.classList.toggle('open'));
   });
+
+  // ===== 搜尋 =====
+  const SEARCH_INDEX = [
+    {p:'eng', tag:'英文', t:'ORID 反思法', d:'看影片/經歷後寫心得：事實→感受→意義→行動', k:'orid 反思 影片 心得 客觀 詮釋 決定'},
+    {p:'eng', tag:'英文', t:'回音法 Echo Method', d:'聽一句模仿一句，練英文發音', k:'回音法 echo 發音 模仿 朗讀'},
+    {p:'eng', tag:'英文', t:'摘要 Summary', d:'用自己的話抓文章骨架、填空', k:'摘要 summary 重點 填空 dream big'},
+    {p:'eng', tag:'英文', t:'文章結構分析', d:'看出說明文套路：定義→症狀→治療→呼籲', k:'結構 說明文 排序 gaming disorder'},
+    {p:'chi', tag:'國文', t:'人物描寫手法', d:'動作/語言/細節/對比寫活角色', k:'人物 描寫 散赤人 手法'},
+    {p:'chi', tag:'國文', t:'扁平 vs 圓形人物', d:'角色性格單一還是複雜立體', k:'扁平 圓形 人物 嬸婆'},
+    {p:'chi', tag:'國文', t:'幽默 vs 滑稽', d:'局外旁觀 vs 又笑又痛的滑稽', k:'幽默 滑稽 散赤人'},
+    {p:'chi', tag:'國文', t:'鄉土文學/反美化', d:'拆穿民風淳樸的浪漫想像', k:'鄉土 意象 美化 洲尾'},
+    {p:'zheng', tag:'自然', t:'心智圖', d:'把知識畫成樹狀圖：主題→分支→細節', k:'心智圖 mindmap xmind 視覺 整理'},
+    {p:'zheng', tag:'自然', t:'論證/文本分析', d:'主張→證據→推理→限制', k:'論證 文本分析 生命起源 細胞膜 證據 claim'},
+    {p:'math', tag:'數學', t:'對稱 (x,y 對調)', d:'x、y 互換對稱於 y=x，就是反函數', k:'對稱 反函數 desmos xy 對調'},
+    {p:'math', tag:'數學', t:'平移', d:'動 x 是左右、動整條式子是上下', k:'平移 移動 左右 上下 desmos'},
+    {p:'math', tag:'數學', t:'不等式區域/塗色', d:'不等式畫出一片區域、取交集塗色', k:'不等式 區域 交集 塗色 desmos'},
+    {p:'math', tag:'數學', t:'多邊形 polygon', d:'連點成多邊形、改色隱藏邊線', k:'多邊形 polygon 連點 圖案'},
+    {p:'math', tag:'數學', t:'動手學數學 Desmos', d:'改數字看圖怎麼變，規律自己浮現', k:'desmos 動手 繪圖 函數 f(x) 變數 a'},
+    {p:'wu', tag:'社會', t:'歌曲文本分析', d:'從歌詞讀社會、政治、價值觀', k:'歌曲 文本 鹿港小鎮 向前走 島嶼天光 流浪記 mv'},
+    {p:'wu', tag:'社會', t:'年代歌曲報告', d:'選代表時代的歌＋口頭報告', k:'歌曲 報告 玫瑰少年 口頭 簡報'},
+    {p:'wu', tag:'社會', t:'5W1H 分析', d:'人時地事為何經過＋時間軸', k:'5w1h 美濃 水庫 事件 時間軸 新聞'},
+    {p:'wu', tag:'社會', t:'SWOT 分析', d:'優勢/劣勢/機會/威脅做決定', k:'swot 優勢 劣勢 機會 威脅 決策'},
+    {p:'wu', tag:'社會', t:'空間觀察與分析', d:'看穿任何安排背後的邏輯', k:'空間 觀察 校園 逸仙樓 動靜分離 規劃'},
+    {p:'score', tag:'通用', t:'學習工具箱', d:'遇到什麼狀況用哪個方法', k:'工具箱 方法 怎麼用 習慣 為什麼'},
+  ];
+  const input = document.getElementById('searchInput');
+  const results = document.getElementById('searchResults');
+  const clearBtn = document.getElementById('searchClear');
+  const tabsEl = document.getElementById('tabs');
+
+  function hl(text, q){
+    if(!q) return text;
+    const i = text.toLowerCase().indexOf(q.toLowerCase());
+    if(i<0) return text;
+    return text.slice(0,i)+'<mark>'+text.slice(i,i+q.length)+'</mark>'+text.slice(i+q.length);
+  }
+  function runSearch(){
+    const q = input.value.trim();
+    clearBtn.style.display = q ? 'block' : 'none';
+    if(!q){ results.style.display='none'; tabsEl.style.display='flex'; return; }
+    const ql = q.toLowerCase();
+    const hits = SEARCH_INDEX.filter(it =>
+      it.t.toLowerCase().includes(ql) ||
+      it.d.toLowerCase().includes(ql) ||
+      it.k.toLowerCase().includes(ql) ||
+      it.tag.includes(q)
+    );
+    tabsEl.style.display='none';
+    results.style.display='block';
+    if(hits.length===0){
+      results.innerHTML = '<div class="sr-none">找不到「'+q+'」🍂 換個關鍵字試試，例如：SWOT、心智圖、平移、回音法</div>';
+      return;
+    }
+    results.innerHTML = hits.map(it =>
+      '<div class="sr-item" data-go="'+it.p+'">'+
+        '<span class="sr-tag">'+it.tag+'</span>'+
+        '<div><div class="sr-t">'+hl(it.t,q)+'</div>'+
+        '<div class="sr-d">'+hl(it.d,q)+'</div></div>'+
+      '</div>'
+    ).join('');
+    results.querySelectorAll('.sr-item').forEach(el=>{
+      el.addEventListener('click', ()=>{
+        showPanel(el.dataset.go);
+        input.value=''; runSearch();
+        window.scrollTo({top:0, behavior:'smooth'});
+      });
+    });
+  }
+  input.addEventListener('input', runSearch);
+  clearBtn.addEventListener('click', ()=>{ input.value=''; input.focus(); runSearch(); });
 </script>
 </body>
 </html>
