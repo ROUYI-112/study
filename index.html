@@ -16,9 +16,14 @@
   body{
     font-family:-apple-system,"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif;
     color:var(--ink); line-height:1.75;
-    background:linear-gradient(180deg,#9ec9e8 0%,#c4ddee 28%,#e8eef0 50%,#ece3d7 100%);
+    background:linear-gradient(180deg,
+        #7fb5e0 0%, #9ec9e8 18%, #bcdcef 34%,
+        #d8ebf2 48%, #e8f0e2 60%, #cfe6b8 78%, #b6d99a 100%);
     background-attachment:fixed; min-height:100vh;
   }
+  /* 全螢幕校園背景場景（雲、遠山、樹林），鋪滿兩側 */
+  .bg-scene{position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden;}
+  .bg-scene svg{position:absolute; bottom:0; left:0; width:100%; height:100%;}
   /* 飄落楓葉 */
   .leaves{position:fixed; inset:0; pointer-events:none; z-index:50; overflow:hidden;}
   .leaf{position:absolute; top:-40px; font-size:22px; opacity:.85;
@@ -28,11 +33,8 @@
     10%{opacity:.9;}
     100%{transform:translateY(105vh) translateX(60px) rotate(420deg); opacity:.7;}
   }
-  /* 底部校園剪影 */
-  .campus{position:fixed; left:0; right:0; bottom:0; height:120px; z-index:0;
-          pointer-events:none;}
-  .app{max-width:920px; margin:0 auto 130px; background:rgba(255,255,255,.97);
-       min-height:100vh; box-shadow:0 0 50px rgba(0,0,0,.12); position:relative; z-index:2;
+  .app{max-width:920px; margin:0 auto 40px; background:rgba(255,255,255,.97);
+       min-height:100vh; box-shadow:0 0 50px rgba(0,0,0,.15); position:relative; z-index:2;
        border-radius:0 0 14px 14px;}
 
   header{background:linear-gradient(180deg,#6fb0de 0%,#9cc8e6 55%,#cfe2ef 100%);
@@ -147,6 +149,43 @@
 </style>
 </head>
 <body>
+<!-- 全螢幕校園背景：雲、遠山、樹林（鋪滿整個視窗，填補兩側空白） -->
+<div class="bg-scene" aria-hidden="true">
+  <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+    <!-- 雲 -->
+    <g fill="#ffffff" opacity="0.65">
+      <ellipse cx="220" cy="120" rx="80" ry="26"/>
+      <ellipse cx="270" cy="110" rx="55" ry="22"/>
+      <ellipse cx="1250" cy="90" rx="95" ry="28"/>
+      <ellipse cx="1320" cy="100" rx="60" ry="22"/>
+      <ellipse cx="800" cy="180" rx="70" ry="22"/>
+      <ellipse cx="1480" cy="200" rx="70" ry="24"/>
+      <ellipse cx="90" cy="260" rx="65" ry="22"/>
+    </g>
+    <!-- 遠山丘 -->
+    <path d="M0,560 Q300,470 650,540 T1600,520 L1600,900 L0,900 Z" fill="#a9cf86" opacity="0.55"/>
+    <path d="M0,640 Q400,560 850,620 T1600,600 L1600,900 L0,900 Z" fill="#93c270" opacity="0.6"/>
+    <!-- 遠處樹林（左） -->
+    <g opacity="0.5">
+      <circle cx="120" cy="610" r="40" fill="#5f9e58"/>
+      <circle cx="175" cy="625" r="32" fill="#6fae64"/>
+      <circle cx="70" cy="628" r="30" fill="#6aa860"/>
+      <rect x="113" y="610" width="12" height="50" fill="#7a5a38"/>
+    </g>
+    <!-- 遠處樹林（右） -->
+    <g opacity="0.5">
+      <circle cx="1480" cy="600" r="44" fill="#5f9e58"/>
+      <circle cx="1420" cy="620" r="32" fill="#6fae64"/>
+      <circle cx="1540" cy="622" r="30" fill="#6aa860"/>
+      <rect x="1473" y="600" width="13" height="55" fill="#7a5a38"/>
+    </g>
+    <!-- 前景草地 -->
+    <path d="M0,720 Q500,680 800,710 T1600,700 L1600,900 L0,900 Z" fill="#8fc46c"/>
+    <!-- 跑道 -->
+    <path d="M0,760 Q500,724 800,752 T1600,742 L1600,772 Q800,782 0,790 Z" fill="#c2734a" opacity="0.45"/>
+  </svg>
+</div>
+
 <!-- 飄落楓葉 -->
 <div class="leaves" id="leaves"></div>
 
@@ -587,28 +626,6 @@
 
   <footer>宋柔穎（一信10號）· 中山女高 · 我的學習方法地圖</footer>
 </div>
-
-<!-- 底部操場剪影：草地與跑道 -->
-<svg class="campus" viewBox="0 0 1200 120" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
-  <!-- 草地 -->
-  <rect x="0" y="60" width="1200" height="60" fill="#8fbf6e" opacity="0.55"/>
-  <!-- 跑道 -->
-  <path d="M0,78 Q600,52 1200,78 L1200,92 Q600,66 0,92 Z" fill="#c2734a" opacity="0.5"/>
-  <!-- 左側楓樹 -->
-  <g opacity="0.8">
-    <rect x="92" y="56" width="9" height="34" fill="#6b4a2b"/>
-    <circle cx="96" cy="48" r="22" fill="#c0512e"/>
-    <circle cx="80" cy="56" r="15" fill="#d4732e"/>
-    <circle cx="112" cy="56" r="15" fill="#b8431f"/>
-  </g>
-  <!-- 右側楓樹 -->
-  <g opacity="0.8">
-    <rect x="1098" y="58" width="9" height="32" fill="#6b4a2b"/>
-    <circle cx="1102" cy="50" r="20" fill="#c85a2c"/>
-    <circle cx="1086" cy="58" r="14" fill="#d4732e"/>
-    <circle cx="1118" cy="58" r="14" fill="#b8431f"/>
-  </g>
-</svg>
 
 <script>
   // ===== 飄落楓葉 =====
