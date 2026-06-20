@@ -20,7 +20,7 @@
     background-attachment:fixed; min-height:100vh;
   }
   /* 飄落楓葉 */
-  .leaves{position:fixed; inset:0; pointer-events:none; z-index:1; overflow:hidden;}
+  .leaves{position:fixed; inset:0; pointer-events:none; z-index:50; overflow:hidden;}
   .leaf{position:absolute; top:-40px; font-size:22px; opacity:.85;
         animation:fall linear infinite;}
   @keyframes fall{
@@ -35,13 +35,20 @@
        min-height:100vh; box-shadow:0 0 50px rgba(0,0,0,.12); position:relative; z-index:2;
        border-radius:0 0 14px 14px;}
 
-  header{background:linear-gradient(135deg,rgba(122,31,43,.94),rgba(156,58,46,.92));
-         color:#fff; padding:30px 26px 24px; text-align:center; position:relative; overflow:hidden;}
-  header .k{font-size:12px; letter-spacing:4px; color:#f0c89a; font-weight:700; position:relative; z-index:2;}
-  header h1{font-size:26px; margin:6px 0 4px; font-weight:800; position:relative; z-index:2;}
-  header p{font-size:14px; color:#f3e2d4; position:relative; z-index:2;}
-  /* header 裡的小楓葉裝飾 */
-  header .deco{position:absolute; opacity:.18; font-size:60px; z-index:1;}
+  header{background:linear-gradient(180deg,#6fb0de 0%,#9cc8e6 55%,#cfe2ef 100%);
+         color:#fff; padding:26px 26px 0; text-align:center; position:relative; overflow:hidden;
+         min-height:240px;}
+  header .htext{position:relative; z-index:3;
+         text-shadow:0 1px 8px rgba(255,255,255,.55);}
+  header .k{font-size:12px; letter-spacing:4px; color:#7a1f2b; font-weight:700;}
+  header h1{font-size:27px; margin:6px 0 4px; font-weight:800; color:#7a1f2b;}
+  header p{font-size:14px; color:#5a3a2a; font-weight:500;}
+  /* 莊敬大樓剪影，貼在 header 底部 */
+  header .building{position:absolute; left:0; right:0; bottom:0; width:100%; height:150px;
+         z-index:1; display:block;}
+  /* header 裡的雲 */
+  header .cloud{position:absolute; background:rgba(255,255,255,.7); border-radius:50px;
+         z-index:1; filter:blur(2px);}
 
   /* 搜尋框 */
   .search-wrap{padding:14px 16px 4px; background:#fff; position:sticky; top:0; z-index:31;
@@ -146,11 +153,49 @@
 <div class="app">
 
   <header>
-    <span class="deco" style="top:-10px; left:10px;">🍁</span>
-    <span class="deco" style="bottom:-14px; right:18px;">🍂</span>
-    <div class="k">中山女高 · 高一 · 學習策略</div>
-    <h1>我的學習方法地圖</h1>
-    <p>點老師按鈕，看每份作業在教我什麼思考方法、我能怎麼用在自己身上</p>
+    <div class="cloud" style="width:90px;height:24px;top:30px;left:8%;"></div>
+    <div class="cloud" style="width:120px;height:28px;top:54px;right:10%;"></div>
+    <div class="cloud" style="width:70px;height:20px;top:88px;left:32%;"></div>
+    <div class="htext">
+      <div class="k">中山女高 · 高一 · 學習策略</div>
+      <h1>我的學習方法地圖</h1>
+      <p>點老師按鈕，看每份作業在教我什麼思考方法、我能怎麼用在自己身上</p>
+    </div>
+    <!-- 莊敬大樓剪影 -->
+    <svg class="building" viewBox="0 0 1200 150" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+      <!-- 後方藍色高樓（右側） -->
+      <rect x="1080" y="40" width="90" height="110" fill="#5b7a93" opacity="0.7"/>
+      <g fill="#cfe2ef" opacity="0.6">
+        <rect x="1090" y="50" width="10" height="12"/><rect x="1108" y="50" width="10" height="12"/><rect x="1126" y="50" width="10" height="12"/><rect x="1144" y="50" width="10" height="12"/>
+        <rect x="1090" y="70" width="10" height="12"/><rect x="1108" y="70" width="10" height="12"/><rect x="1126" y="70" width="10" height="12"/><rect x="1144" y="70" width="10" height="12"/>
+        <rect x="1090" y="90" width="10" height="12"/><rect x="1108" y="90" width="10" height="12"/><rect x="1126" y="90" width="10" height="12"/><rect x="1144" y="90" width="10" height="12"/>
+      </g>
+      <!-- 左側主樓體（米黃） -->
+      <rect x="0" y="62" width="560" height="88" fill="#d8cfa6"/>
+      <rect x="0" y="62" width="560" height="6" fill="#9aa37e"/>
+      <!-- 中央灰色塔樓（莊敬大樓字樣處） -->
+      <rect x="300" y="34" width="130" height="116" fill="#a9a6a0"/>
+      <rect x="300" y="34" width="130" height="6" fill="#8a8780"/>
+      <circle cx="365" cy="56" r="9" fill="#d4a13c"/> <!-- 校徽意象 -->
+      <text x="365" y="86" font-size="13" fill="#5a564f" text-anchor="middle" font-weight="bold">莊敬大樓</text>
+      <!-- 右側延伸樓體（米黃，較低） -->
+      <rect x="560" y="78" width="560" height="72" fill="#cfc69c"/>
+      <rect x="560" y="78" width="560" height="6" fill="#9aa37e"/>
+      <!-- 窗戶（左樓體） -->
+      <g fill="#6e7c6a" opacity="0.85">
+        <rect x="30" y="80" width="16" height="22"/><rect x="60" y="80" width="16" height="22"/><rect x="90" y="80" width="16" height="22"/><rect x="120" y="80" width="16" height="22"/><rect x="150" y="80" width="16" height="22"/><rect x="180" y="80" width="16" height="22"/><rect x="210" y="80" width="16" height="22"/><rect x="240" y="80" width="16" height="22"/>
+        <rect x="30" y="112" width="16" height="22"/><rect x="60" y="112" width="16" height="22"/><rect x="90" y="112" width="16" height="22"/><rect x="120" y="112" width="16" height="22"/><rect x="150" y="112" width="16" height="22"/><rect x="180" y="112" width="16" height="22"/><rect x="210" y="112" width="16" height="22"/><rect x="240" y="112" width="16" height="22"/>
+        <rect x="450" y="80" width="16" height="22"/><rect x="480" y="80" width="16" height="22"/><rect x="510" y="80" width="16" height="22"/>
+        <rect x="450" y="112" width="16" height="22"/><rect x="480" y="112" width="16" height="22"/><rect x="510" y="112" width="16" height="22"/>
+      </g>
+      <!-- 窗戶（右樓體） -->
+      <g fill="#6e7c6a" opacity="0.8">
+        <rect x="590" y="96" width="15" height="20"/><rect x="620" y="96" width="15" height="20"/><rect x="650" y="96" width="15" height="20"/><rect x="680" y="96" width="15" height="20"/><rect x="710" y="96" width="15" height="20"/><rect x="740" y="96" width="15" height="20"/><rect x="770" y="96" width="15" height="20"/><rect x="800" y="96" width="15" height="20"/><rect x="830" y="96" width="15" height="20"/><rect x="860" y="96" width="15" height="20"/><rect x="890" y="96" width="15" height="20"/><rect x="920" y="96" width="15" height="20"/><rect x="950" y="96" width="15" height="20"/><rect x="980" y="96" width="15" height="20"/><rect x="1010" y="96" width="15" height="20"/><rect x="1040" y="96" width="15" height="20"/>
+        <rect x="590" y="124" width="15" height="20"/><rect x="620" y="124" width="15" height="20"/><rect x="650" y="124" width="15" height="20"/><rect x="680" y="124" width="15" height="20"/><rect x="710" y="124" width="15" height="20"/><rect x="740" y="124" width="15" height="20"/><rect x="770" y="124" width="15" height="20"/><rect x="800" y="124" width="15" height="20"/><rect x="830" y="124" width="15" height="20"/><rect x="860" y="124" width="15" height="20"/><rect x="890" y="124" width="15" height="20"/><rect x="920" y="124" width="15" height="20"/><rect x="950" y="124" width="15" height="20"/><rect x="980" y="124" width="15" height="20"/><rect x="1010" y="124" width="15" height="20"/><rect x="1040" y="124" width="15" height="20"/>
+      </g>
+      <!-- 前方草地與跑道 -->
+      <rect x="0" y="142" width="1200" height="8" fill="#b06a4a" opacity="0.55"/>
+    </svg>
   </header>
 
   <!-- 搜尋框 -->
@@ -543,49 +588,25 @@
   <footer>宋柔穎（一信10號）· 中山女高 · 我的學習方法地圖</footer>
 </div>
 
-<!-- 底部校園剪影：古蹟、操場、樹 -->
+<!-- 底部操場剪影：草地與跑道 -->
 <svg class="campus" viewBox="0 0 1200 120" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
-  <!-- 操場跑道 -->
-  <ellipse cx="600" cy="135" rx="560" ry="48" fill="#cf9f6f" opacity="0.55"/>
-  <ellipse cx="600" cy="135" rx="500" ry="38" fill="#7cae6a" opacity="0.6"/>
-  <!-- 左側樹 -->
-  <g opacity="0.85">
-    <rect x="92" y="72" width="9" height="34" fill="#6b4a2b"/>
-    <circle cx="96" cy="62" r="26" fill="#c0512e"/>
-    <circle cx="78" cy="70" r="18" fill="#d4732e"/>
-    <circle cx="114" cy="70" r="18" fill="#b8431f"/>
+  <!-- 草地 -->
+  <rect x="0" y="60" width="1200" height="60" fill="#8fbf6e" opacity="0.55"/>
+  <!-- 跑道 -->
+  <path d="M0,78 Q600,52 1200,78 L1200,92 Q600,66 0,92 Z" fill="#c2734a" opacity="0.5"/>
+  <!-- 左側楓樹 -->
+  <g opacity="0.8">
+    <rect x="92" y="56" width="9" height="34" fill="#6b4a2b"/>
+    <circle cx="96" cy="48" r="22" fill="#c0512e"/>
+    <circle cx="80" cy="56" r="15" fill="#d4732e"/>
+    <circle cx="112" cy="56" r="15" fill="#b8431f"/>
   </g>
-  <!-- 古蹟主建築（中山樓意象：紅磚＋三角頂＋鐘樓） -->
-  <g opacity="0.92">
-    <rect x="470" y="58" width="260" height="62" fill="#9c3a2e"/>
-    <rect x="470" y="58" width="260" height="10" fill="#7a1f2b"/>
-    <!-- 鐘樓 -->
-    <rect x="560" y="22" width="80" height="40" fill="#b04632"/>
-    <polygon points="560,22 600,2 640,22" fill="#7a1f2b"/>
-    <circle cx="600" cy="40" r="8" fill="#f0c89a"/>
-    <!-- 拱窗 -->
-    <rect x="492" y="78" width="20" height="34" rx="10" fill="#f3e2d4" opacity="0.8"/>
-    <rect x="530" y="78" width="20" height="34" rx="10" fill="#f3e2d4" opacity="0.8"/>
-    <rect x="650" y="78" width="20" height="34" rx="10" fill="#f3e2d4" opacity="0.8"/>
-    <rect x="688" y="78" width="20" height="34" rx="10" fill="#f3e2d4" opacity="0.8"/>
-    <!-- 大門 -->
-    <rect x="586" y="86" width="28" height="34" rx="14" fill="#5a1620"/>
-  </g>
-  <!-- 右側教學樓 -->
-  <g opacity="0.85">
-    <rect x="800" y="74" width="150" height="46" fill="#b56a4a"/>
-    <rect x="812" y="84" width="14" height="14" fill="#f3e2d4"/>
-    <rect x="836" y="84" width="14" height="14" fill="#f3e2d4"/>
-    <rect x="860" y="84" width="14" height="14" fill="#f3e2d4"/>
-    <rect x="884" y="84" width="14" height="14" fill="#f3e2d4"/>
-    <rect x="908" y="84" width="14" height="14" fill="#f3e2d4"/>
-  </g>
-  <!-- 右側樹 -->
-  <g opacity="0.85">
-    <rect x="1075" y="74" width="9" height="32" fill="#6b4a2b"/>
-    <circle cx="1079" cy="64" r="24" fill="#c85a2c"/>
-    <circle cx="1062" cy="72" r="16" fill="#d4732e"/>
-    <circle cx="1096" cy="72" r="16" fill="#b8431f"/>
+  <!-- 右側楓樹 -->
+  <g opacity="0.8">
+    <rect x="1098" y="58" width="9" height="32" fill="#6b4a2b"/>
+    <circle cx="1102" cy="50" r="20" fill="#c85a2c"/>
+    <circle cx="1086" cy="58" r="14" fill="#d4732e"/>
+    <circle cx="1118" cy="58" r="14" fill="#b8431f"/>
   </g>
 </svg>
 
