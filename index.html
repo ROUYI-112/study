@@ -17,13 +17,11 @@
     font-family:-apple-system,"PingFang TC","Noto Sans TC","Microsoft JhengHei",sans-serif;
     color:var(--ink); line-height:1.75;
     background:linear-gradient(180deg,
-        #7fb5e0 0%, #9ec9e8 18%, #bcdcef 34%,
-        #d8ebf2 48%, #e8f0e2 60%, #cfe6b8 78%, #b6d99a 100%);
-    background-attachment:fixed; min-height:100vh;
+        #d6ee9e 0%, #c3e88a 14%, #a9dd76 30%,
+        #8ccf66 46%, #6fc05a 60%, #4ea64f 74%, #2f3b4a 100%);
+    min-height:100vh;
   }
-  /* 全螢幕校園背景場景（雲、遠山、樹林），鋪滿兩側 */
-  .bg-scene{position:fixed; inset:0; z-index:0; pointer-events:none; overflow:hidden;}
-  .bg-scene svg{position:absolute; bottom:0; left:0; width:100%; height:100%;}
+  /* 固定的天空底色（最底層，跟著捲動的森林會疊在上面） */
   /* 飄落楓葉 */
   .leaves{position:fixed; inset:0; pointer-events:none; z-index:50; overflow:hidden;}
   .leaf{position:absolute; top:-40px; font-size:22px; opacity:.85;
@@ -33,20 +31,23 @@
     10%{opacity:.9;}
     100%{transform:translateY(105vh) translateX(60px) rotate(420deg); opacity:.7;}
   }
-  .app{max-width:920px; margin:0 auto 40px; background:rgba(255,255,255,.97);
+  .app{max-width:920px; margin:0 auto 0; background:rgba(255,255,255,.97);
        min-height:100vh; box-shadow:0 0 50px rgba(0,0,0,.15); position:relative; z-index:2;
-       border-radius:0 0 14px 14px;}
+       border-radius:0;}
+  /* 置底森林場景：跟著頁面捲動，捲到底才看到完整 */
+  .forest{position:relative; z-index:1; width:100%; display:block; margin-top:-2px;}
+  .forest svg{display:block; width:100%; height:auto;}
 
-  header{background:linear-gradient(180deg,#6fb0de 0%,#9cc8e6 55%,#cfe2ef 100%);
+  header{background:linear-gradient(180deg,#7fc1d8 0%,#a6d6c4 55%,#cfe8b8 100%);
          color:#fff; padding:26px 26px 0; text-align:center; position:relative; overflow:hidden;
          min-height:240px;}
-  header .htext{position:relative; z-index:3;
-         text-shadow:0 1px 8px rgba(255,255,255,.55);}
+  header .htext{position:relative; z-index:3; padding-bottom:90px;
+         text-shadow:0 1px 10px rgba(255,255,255,.85), 0 0 4px rgba(255,255,255,.7);}
   header .k{font-size:12px; letter-spacing:4px; color:#7a1f2b; font-weight:700;}
   header h1{font-size:27px; margin:6px 0 4px; font-weight:800; color:#7a1f2b;}
   header p{font-size:14px; color:#5a3a2a; font-weight:500;}
-  /* 莊敬大樓剪影，貼在 header 底部 */
-  header .building{position:absolute; left:0; right:0; bottom:0; width:100%; height:150px;
+  /* 莊敬大樓＋操場剪影，貼在 header 底部 */
+  header .building{position:absolute; left:0; right:0; bottom:0; width:100%; height:210px;
          z-index:1; display:block;}
   /* header 裡的雲 */
   header .cloud{position:absolute; background:rgba(255,255,255,.7); border-radius:50px;
@@ -149,59 +150,6 @@
 </style>
 </head>
 <body>
-<!-- 全螢幕校園背景：雲、遠山、樹林（鋪滿整個視窗，填補兩側空白） -->
-<div class="bg-scene" aria-hidden="true">
-  <svg viewBox="0 0 1600 900" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
-    <!-- 雲 -->
-    <g fill="#ffffff" opacity="0.65">
-      <ellipse cx="220" cy="120" rx="80" ry="26"/>
-      <ellipse cx="270" cy="110" rx="55" ry="22"/>
-      <ellipse cx="1250" cy="90" rx="95" ry="28"/>
-      <ellipse cx="1320" cy="100" rx="60" ry="22"/>
-      <ellipse cx="800" cy="180" rx="70" ry="22"/>
-      <ellipse cx="1480" cy="200" rx="70" ry="24"/>
-      <ellipse cx="90" cy="260" rx="65" ry="22"/>
-    </g>
-    <!-- 遠山丘 -->
-    <path d="M0,540 Q300,450 650,520 T1600,500 L1600,900 L0,900 Z" fill="#a9cf86" opacity="0.7"/>
-    <path d="M0,620 Q400,540 850,600 T1600,580 L1600,900 L0,900 Z" fill="#93c270" opacity="0.8"/>
-
-    <!-- 前景草地（拉高，更明顯） -->
-    <path d="M0,690 Q500,650 800,680 T1600,670 L1600,900 L0,900 Z" fill="#82bf60"/>
-    <!-- 跑道 -->
-    <path d="M0,730 Q500,694 800,722 T1600,712 L1600,748 Q800,758 0,766 Z" fill="#c2734a" opacity="0.55"/>
-
-    <!-- 中景小樹（散布草地） -->
-    <g>
-      <rect x="330" y="630" width="11" height="40" fill="#7a5a38"/>
-      <circle cx="335" cy="620" r="26" fill="#6aa860"/>
-      <rect x="640" y="640" width="10" height="36" fill="#7a5a38"/>
-      <circle cx="645" cy="632" r="22" fill="#74b268"/>
-      <rect x="1010" y="636" width="10" height="38" fill="#7a5a38"/>
-      <circle cx="1015" cy="626" r="24" fill="#6aa860"/>
-      <rect x="1290" y="644" width="10" height="34" fill="#7a5a38"/>
-      <circle cx="1295" cy="636" r="21" fill="#74b268"/>
-    </g>
-
-    <!-- 前景大樹（左） -->
-    <g>
-      <rect x="120" y="678" width="22" height="78" fill="#6b4a2b"/>
-      <circle cx="131" cy="660" r="62" fill="#5f9e58"/>
-      <circle cx="86" cy="688" r="42" fill="#6fae64"/>
-      <circle cx="178" cy="688" r="44" fill="#569450"/>
-      <circle cx="131" cy="700" r="48" fill="#6aa860"/>
-    </g>
-    <!-- 前景大樹（右） -->
-    <g>
-      <rect x="1458" y="676" width="24" height="82" fill="#6b4a2b"/>
-      <circle cx="1470" cy="656" r="66" fill="#5f9e58"/>
-      <circle cx="1420" cy="688" r="44" fill="#6fae64"/>
-      <circle cx="1522" cy="688" r="46" fill="#569450"/>
-      <circle cx="1470" cy="700" r="50" fill="#6aa860"/>
-    </g>
-  </svg>
-</div>
-
 <!-- 飄落楓葉 -->
 <div class="leaves" id="leaves"></div>
 
@@ -217,7 +165,7 @@
       <p>點老師按鈕，看每份作業在教我什麼思考方法、我能怎麼用在自己身上</p>
     </div>
     <!-- 莊敬大樓剪影 -->
-    <svg class="building" viewBox="0 0 1200 150" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+    <svg class="building" viewBox="0 0 1200 230" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
       <!-- 後方藍色高樓（右側） -->
       <rect x="1080" y="40" width="90" height="110" fill="#5b7a93" opacity="0.7"/>
       <g fill="#cfe2ef" opacity="0.6">
@@ -248,8 +196,18 @@
         <rect x="590" y="96" width="15" height="20"/><rect x="620" y="96" width="15" height="20"/><rect x="650" y="96" width="15" height="20"/><rect x="680" y="96" width="15" height="20"/><rect x="710" y="96" width="15" height="20"/><rect x="740" y="96" width="15" height="20"/><rect x="770" y="96" width="15" height="20"/><rect x="800" y="96" width="15" height="20"/><rect x="830" y="96" width="15" height="20"/><rect x="860" y="96" width="15" height="20"/><rect x="890" y="96" width="15" height="20"/><rect x="920" y="96" width="15" height="20"/><rect x="950" y="96" width="15" height="20"/><rect x="980" y="96" width="15" height="20"/><rect x="1010" y="96" width="15" height="20"/><rect x="1040" y="96" width="15" height="20"/>
         <rect x="590" y="124" width="15" height="20"/><rect x="620" y="124" width="15" height="20"/><rect x="650" y="124" width="15" height="20"/><rect x="680" y="124" width="15" height="20"/><rect x="710" y="124" width="15" height="20"/><rect x="740" y="124" width="15" height="20"/><rect x="770" y="124" width="15" height="20"/><rect x="800" y="124" width="15" height="20"/><rect x="830" y="124" width="15" height="20"/><rect x="860" y="124" width="15" height="20"/><rect x="890" y="124" width="15" height="20"/><rect x="920" y="124" width="15" height="20"/><rect x="950" y="124" width="15" height="20"/><rect x="980" y="124" width="15" height="20"/><rect x="1010" y="124" width="15" height="20"/><rect x="1040" y="124" width="15" height="20"/>
       </g>
-      <!-- 前方草地與跑道 -->
-      <rect x="0" y="142" width="1200" height="8" fill="#b06a4a" opacity="0.55"/>
+      <!-- 操場：草皮＋紅色跑道（照片場景） -->
+      <!-- 草皮 -->
+      <rect x="0" y="150" width="1200" height="80" fill="#7cb85e"/>
+      <!-- 草皮與大樓間的步道 -->
+      <rect x="0" y="150" width="1200" height="6" fill="#cbb896"/>
+      <!-- 紅色 PU 跑道（前景弧形） -->
+      <path d="M0,196 Q600,168 1200,196 L1200,230 L0,230 Z" fill="#b94e3a"/>
+      <!-- 跑道白線 -->
+      <path d="M0,196 Q600,168 1200,196" stroke="#e8e0d0" stroke-width="2.5" fill="none" opacity="0.8"/>
+      <path d="M0,210 Q600,184 1200,210" stroke="#e8e0d0" stroke-width="2" fill="none" opacity="0.6"/>
+      <!-- 內側草地弧線 -->
+      <path d="M0,190 Q600,164 1200,190" stroke="#5fa048" stroke-width="3" fill="none" opacity="0.5"/>
     </svg>
   </header>
 
@@ -640,7 +598,85 @@
 
   </div>
 
-  <footer>宋柔穎（一信10號）· 中山女高 · 我的學習方法地圖</footer>
+  <footer style="background:transparent; border:none; color:#6b7785;">宋柔穎（一信10號）· 中山女高 · 我的學習方法地圖</footer>
+</div>
+
+<!-- 置底森林場景（跟著頁面捲動，捲到底看到完整） -->
+<div class="forest" aria-hidden="true">
+  <svg viewBox="0 0 1600 620" preserveAspectRatio="xMidYMax slice" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="sky" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#d6ee9e"/>
+        <stop offset="45%" stop-color="#aadd78"/>
+        <stop offset="100%" stop-color="#8ccf66"/>
+      </linearGradient>
+    </defs>
+    <!-- 天空 -->
+    <rect x="0" y="0" width="1600" height="620" fill="url(#sky)"/>
+
+    <!-- 星星 -->
+    <g>
+      <path d="M250,90 l4,10 l10,4 l-10,4 l-4,10 l-4,-10 l-10,-4 l10,-4 z" fill="#f4c93c"/>
+      <path d="M470,70 l3,8 l8,3 l-8,3 l-3,8 l-3,-8 l-8,-3 l8,-3 z" fill="#6a7bd0"/>
+      <path d="M390,150 l3,8 l8,3 l-8,3 l-3,8 l-3,-8 l-8,-3 l8,-3 z" fill="#f4c93c"/>
+      <path d="M620,130 l3,7 l7,3 l-7,3 l-3,7 l-3,-7 l-7,-3 l7,-3 z" fill="#6a7bd0"/>
+      <path d="M1150,100 l4,9 l9,4 l-9,4 l-4,9 l-4,-9 l-9,-4 l9,-4 z" fill="#f4c93c"/>
+      <path d="M1320,150 l3,7 l7,3 l-7,3 l-3,7 l-3,-7 l-7,-3 l7,-3 z" fill="#6a7bd0"/>
+      <path d="M880,80 l3,8 l8,3 l-8,3 l-3,8 l-3,-8 l-8,-3 l8,-3 z" fill="#f4c93c"/>
+    </g>
+
+    <!-- 中層樹叢（較亮綠，圓潤起伏） -->
+    <path d="M0,300
+      Q120,210 240,290 Q360,200 480,285 Q600,205 720,290
+      Q840,210 960,285 Q1080,205 1200,290 Q1320,210 1440,285 Q1540,230 1600,290
+      L1600,620 L0,620 Z" fill="#74c25a"/>
+
+    <!-- 前層樹叢（深綠，更大的圓弧） -->
+    <path d="M0,400
+      Q140,300 290,390 Q440,295 590,388 Q740,300 890,390
+      Q1040,295 1190,388 Q1340,300 1490,390 Q1560,345 1600,388
+      L1600,620 L0,620 Z" fill="#3f9d4e"/>
+
+    <!-- 樹叢上的白色筆觸（雨點質感） -->
+    <g fill="#ffffff" opacity="0.55">
+      <rect x="120" y="430" width="4" height="16" rx="2"/><rect x="160" y="460" width="4" height="14" rx="2"/><rect x="90" y="470" width="4" height="15" rx="2"/>
+      <rect x="200" y="445" width="4" height="16" rx="2"/><rect x="250" y="475" width="4" height="14" rx="2"/>
+      <rect x="560" y="430" width="4" height="16" rx="2"/><rect x="600" y="465" width="4" height="14" rx="2"/><rect x="640" y="445" width="4" height="15" rx="2"/>
+      <rect x="900" y="435" width="4" height="16" rx="2"/><rect x="950" y="470" width="4" height="14" rx="2"/>
+      <rect x="1180" y="440" width="4" height="16" rx="2"/><rect x="1230" y="470" width="4" height="14" rx="2"/><rect x="1280" y="450" width="4" height="15" rx="2"/>
+      <rect x="1400" y="445" width="4" height="15" rx="2"/>
+    </g>
+
+    <!-- 細長樹幹（白樺意象） -->
+    <g fill="#c9cdc0">
+      <rect x="130" y="470" width="9" height="100"/>
+      <rect x="255" y="490" width="8" height="85"/>
+      <rect x="520" y="470" width="9" height="105"/>
+      <rect x="790" y="480" width="9" height="95"/>
+      <rect x="1090" y="475" width="9" height="100"/>
+      <rect x="1350" y="485" width="8" height="90"/>
+    </g>
+
+    <!-- 深色地面 -->
+    <path d="M0,500 Q400,475 800,495 T1600,490 L1600,620 L0,620 Z" fill="#36424f"/>
+
+    <!-- 紅頂小屋 -->
+    <g>
+      <rect x="560" y="525" width="70" height="45" fill="#e7d3a8"/>
+      <polygon points="560,525 595,478 630,525" fill="#e23b2e"/>
+      <rect x="585" y="545" width="20" height="25" rx="3" fill="#5a4a32"/>
+    </g>
+
+    <!-- 白色小羊 -->
+    <g fill="#ffffff">
+      <ellipse cx="1140" cy="545" rx="40" ry="26"/>
+      <circle cx="1175" cy="535" r="16"/>
+      <rect x="1120" y="565" width="5" height="14"/>
+      <rect x="1135" y="567" width="5" height="14"/>
+      <rect x="1150" y="567" width="5" height="14"/>
+      <circle cx="1180" cy="532" r="2.5" fill="#36424f"/>
+    </g>
+  </svg>
 </div>
 
 <script>
